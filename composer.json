@@ -1,0 +1,17 @@
+{
+    "name": "aduh95/php-config",
+    "description": "PHP librairy to handle file config in a PHP project.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "aduh95",
+            "email": "duhamelantoine1995@gmail.com"
+        }
+    ],
+    "bin": [
+        "bin/php-configurator"
+    ],
+    "require": {
+        "php": ">=5.6.1"
+    }
+}

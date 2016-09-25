@@ -1,0 +1,59 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Parse one or two INI files to output the PHP code to define the corresponding constants
+ * @author aduh95
+ * @license MIT
+ */
+
+const MODEL_FILE = __DIR__.DIRECTORY_SEPARATOR.'model.txt';
+const CACHE_DIR = __DIR__.DIRECTORY_SEPARATOR.'cache';
+const COMPILED_FILE = CACHE_DIR.DIRECTORY_SEPARATOR.'config.php';
+const LAST_CONFIG = CACHE_DIR.DIRECTORY_SEPARATOR.'local_files.json';
+
+$options = getopt('d:s::');
+
+if (!is_dir(CACHE_DIR)) {
+    mkdir(CACHE_DIR);
+}
+
+if (empty($options) && $argc>1 && is_dir($argv[1])) {
+    print 'Looking for config files in '.realpath($argv[1]).PHP_EOL;
+    exit('Not ready yet!');
+} elseif (isset($options['d']) && is_readable($options['d'])) {
+    $config['default'] = realpath($options['d']);
+
+    if (isset($options['s']) && is_readable($options['s'])) {
+            $config['specific'] = realpath($options['s']);
+    } else {
+        print 'Unable to read the specific config file, ignored.'.PHP_EOL;
+        $config['specific'] = null;
+    }
+} elseif (is_readable(LAST_CONFIG)) {
+    print 'Using same config files as last time.'.PHP_EOL;
+
+    $config = (array)json_decode(file_get_contents(LAST_CONFIG), true);
+} else {
+    print 'Default files will be used.'.PHP_EOL;
+
+    exit('Not ready yet');
+}
+
+foreach ($config as $name => $path) {
+    print ($path === NULL || !is_readable($path) ?
+        'No file used for ':
+        'Using '.$path.' as ').
+        $name.' config file.'.PHP_EOL;
+}
+
+require_once __DIR__.'/../src/PHPgen.php';
+$f = fopen(COMPILED_FILE, 'w');
+fwrite($f, file_get_contents(MODEL_FILE));
+fwrite($f, PHPgen::parseINI($config['default'], $config['specific']));
+fclose($f);
+
+$f = fopen(LAST_CONFIG, 'w');
+fwrite($f, json_encode($config));
+fclose($f);
+
+echo PHP_EOL;

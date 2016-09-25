@@ -1,0 +1,5 @@
+<?php
+/**
+ * This contains PHP config constants for your project
+ * This file is @generated automatically
+ */
