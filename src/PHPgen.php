@@ -32,7 +32,7 @@ class PHPgen
                 $specific[$section] = array();
             }
 
-            $return.= PHP_EOL.'namespace '.$namespace.$section.';'.PHP_EOL;
+            $return.= PHP_EOL.PHP_EOL.'namespace '.$namespace.$section.';'.PHP_EOL.PHP_EOL;
 
             foreach ($values as $key => $value) {
                 if (isset($specific[$section]) && isset($specific[$section][$key])) {
