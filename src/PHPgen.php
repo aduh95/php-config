@@ -1,4 +1,7 @@
 <?php
+
+namespace aduh95\PHPConfig;
+
 /**
  * @author aduh95
  * @license MIT

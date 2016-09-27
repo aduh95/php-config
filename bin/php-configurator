@@ -6,6 +6,8 @@
  * @license MIT
  */
 
+namespace aduh95\PHPconfig;
+
 const MODEL_FILE = __DIR__.DIRECTORY_SEPARATOR.'model.txt';
 const CACHE_DIR = __DIR__.DIRECTORY_SEPARATOR.'cache';
 const COMPILED_FILE = CACHE_DIR.DIRECTORY_SEPARATOR.'config.php';
